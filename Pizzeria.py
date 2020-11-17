@@ -1,11 +1,13 @@
 ## DICCIONARIOS DE DATOS GLOBALES CON LOS PRECIOS Y NOMBRES DE LOS INGREDIENTES
 ingredientes = {'ja': 40, 'ch': 35, 'pi': 30, 'dq': 40, 'ac': 57.5, 'pp': 38.5, 'sa': 62.5}
-ingNombre = {'ja': 'Jamón', 'ch': 'Champiñones', 'pi': 'Pimentón', 'dq': 'Doble Queso', 'ac': 'Aceitunas', 'pp': 'Pepperoni', 'sa': 'Salchichón'}
+ingNombre = {'ja': 'Jamón', 'ch': 'Champiñones', 'pi': 'Pimentón', 'dq': 'Doble Queso', 'ac': 'Aceitunas',
+             'pp': 'Pepperoni', 'sa': 'Salchichón'}
 tamano_precio = {'Grande': 580, 'Mediana': 430, 'Personal': 280}
 
 ## VARIABLES GOBLALES
 precio_total = 0
 n_pizzas = 0
+
 
 ## FUNCION QUE DEVUELVE EL PRECIO DE UN INGREDIENTE
 ## PARAMETROS: INGREDIENTE ABREVIADO
@@ -13,11 +15,13 @@ n_pizzas = 0
 def getPrecio(ing: str):
     return ingredientes.get(ing)
 
+
 ## FUNCION QUE DEVUELVE EL NOMBRE DE LOS INGREDIENTES SEGUN SE ABREVIADO
 ## PARAMETROS: INGREDIENTE ABREVIADO
 ## RETURN: NOMBRE DEL INGREDIENTE
 def getNombre(ing: str):
     return ingNombre.get(ing)
+
 
 ## FUNCION QUE DEVUELVE EL PRECIO DEL TAMANO DE LA PIZZA
 ## PARAMETROS: TAMANO DE LA PIZZA
@@ -25,9 +29,10 @@ def getNombre(ing: str):
 def getPrecioTamano(ing: str):
     return tamano_precio.get(ing)
 
+
 ## FUNCION PARA AGREGAR INGREDIENTES A UNA PIZZA
 ## PARAMETROS: NINGUNO
-## RETURN: NINGUNO
+## RETURN: INGREDIENTES DE LA PIZZA (AGREGADOS)
 def llenarPizza():
     print('\nIngredientes:')
     liValue = ingNombre.values()
@@ -35,8 +40,8 @@ def llenarPizza():
     agregados = []
     agregados.clear()
     for i in zip(liKey, liValue):
-        print(format(i[1],'15s'), end=' ')
-        print('('.format(i[0])+i[0]+')')
+        print(format(i[1], '15s'), end=' ')
+        print('('.format(i[0]) + i[0] + ')')
     print('\n')
     while True:
         respuesta = input('Indique ingrediente (enter para terminar): ')
@@ -50,33 +55,39 @@ def llenarPizza():
 
     return agregados
 
+
 ## FUNCION QUE MUESTRA EL MENSAJE INICIAL DE LA APLICACION
 ## PARAMETROS: NINGUNO
 ## RETURN: NINGUNO
 def mensaje_inicial():
-    print ("************************")
-    print ("*     PIZZERIA UCAB    *")
-    print ("************************")
+    print("************************")
+    print("*     PIZZERIA UCAB    *")
+    print("************************")
+
 
 ## FUNCION PARA SELECCIONAR EL TAMAÑO DE LA PIZZA
 ## PARAMETROS: OPCION 
-## RETURN: NINGUNO
+## RETURN: OPCION
 def tamanos(opcion):
     print("Opciones: ")
     opcion = input("Tamaños:  Grande ( g )  Mediana ( m )  Personal ( p ): ")
-    if opcion not in ['g', 'm', 'p'] :
+    if opcion not in ['g', 'm', 'p']:
         print("=>Debe seleccionar el tamaño correcto!!")
         tamanos(opcion)
     else:
-        if opcion == 'g': opcion = "Grande"
-        elif opcion == 'm': opcion = "Mediana"
-        else: opcion = "Personal"
+        if opcion == 'g':
+            opcion = "Grande"
+        elif opcion == 'm':
+            opcion = "Mediana"
+        else:
+            opcion = "Personal"
         print("Tamaño seleccionado: ", opcion)
         return opcion
 
-## FUNCION PARA SELECCIONAR EL TAMAÑO DE LA PIZZA
-## PARAMETROS: OPCION
-## RETURN: NINGUNO
+
+## FUNCION PARA DAR RESULTADOS DE LAS PIZZAS
+## PARAMETROS: TAMANO DE LA PIZZA, INGREDIENTES, PRECIO DE LA PIZZA, NUMERO DE PIZZA Y MONTO TOTAL
+## RETURN: RESPUESTA DE SI COMPRAR OTRA PIZZA O NO
 def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
     string_opcion_ingrediente = ""
     for i in opcion_ingrediente:
@@ -96,6 +107,7 @@ def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
             print("El pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
             print("\n\nGracias por su compra, regrese pronto")
             return respuesta
+
 
 def main():
     mensaje_inicial()
@@ -119,6 +131,7 @@ def main():
         precio_total += precio_pizza
 
         respuesta = pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n_pizzas, precio_total)
+
 
 if __name__ == "__main__":
     main()
