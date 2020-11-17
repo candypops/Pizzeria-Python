@@ -1,8 +1,14 @@
+## FUNCION QUE MUESTRA EL MENSAJE INICIAL DE LA APLICACION
+## PARAMETROS: NINGUNO
+## RETURN: NINGUNO
 def mensaje_inicial():
     print ("************************")
     print ("*     PIZZERIA UCAB    *")
     print ("************************")
 
+## FUNCION PARA SELECCIONAR EL TAMAÑO DE LA PIZZA
+## PARAMETROS: OPCION 
+## RETURN: NINGUNO
 def tamanos(opcion):
     print("Opciones: ")
     opcion = input("Tamaños:  Grande ( g )  Mediana ( m )  Personal ( p ): ")
