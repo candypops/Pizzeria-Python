@@ -1,8 +1,17 @@
-## DICCIONARIOS DE DATOS GLOBALES CON LOS PRECIOS Y NOMBRES DE LOS INGREDIENTES
+## DICCIONARIOS DE DATOS GLOBALES CON TAMAÑOS DE PIZZAS, COMBOS Y PRECIOS, LOS PRECIOS Y NOMBRES DE LOS INGREDIENTES
 ingredientes = {'ja': 40, 'ch': 35, 'pi': 30, 'dq': 40, 'ac': 57.5, 'pp': 38.5, 'sa': 62.5}
 ingNombre = {'ja': 'Jamón', 'ch': 'Champiñones', 'pi': 'Pimentón', 'dq': 'Doble Queso', 'ac': 'Aceitunas',
              'pp': 'Pepperoni', 'sa': 'Salchichón'}
 tamano_precio = {'Grande': 580, 'Mediana': 430, 'Personal': 280}
+tamanos = {'g': 'Grande', 'm': 'Mediana', 'p': 'Personal'}
+combos_precios = {'c1': 685, 'c2': 650, 'c3': 539, 'c4': 988, 'c5': 305, 'c6': 469,'c7': 610}
+combos = {'c1': 'Pizza Margarita Grande + 2 Refrescos de 2lts + Dulce         ', 
+          'c2': 'Pizza Cuatro Quesos Grande + 1 Refreco de 2lts               ', 
+          'c3': 'Pizza Cuatro Estaciones Medina + 1 Refreco de 1.5lts + Dulce ', 
+          'c4': 'Pizza Primavera Grande + Extra de Queso + 2 Refrescos de 2lts', 
+          'c5': 'Pizza Pepperoni Personal + 1 Refreco de 1.5lts + Dulce       ', 
+          'c6': 'Pizza Vegetariana Mediana + Dulce                            ',
+          'c7': 'Pizza Caprese Grande + 1 Refreco de 1.5lts + Dulce           '}
 
 ## VARIABLES GOBLALES
 precio_total = 0
@@ -68,22 +77,52 @@ def mensaje_inicial():
 ## FUNCION PARA SELECCIONAR EL TAMAÑO DE LA PIZZA
 ## PARAMETROS: OPCION 
 ## RETURN: OPCION
-def tamanos(opcion):
-    print("Opciones: ")
+def elegir_tamano(opcion):
+    print("\nOpciones: ")
     opcion = input("Tamaños:  Grande ( g )  Mediana ( m )  Personal ( p ): ")
     if opcion not in ['g', 'm', 'p']:
         print("=>Debe seleccionar el tamaño correcto!!")
         tamanos(opcion)
     else:
-        if opcion == 'g':
-            opcion = "Grande"
-        elif opcion == 'm':
-            opcion = "Mediana"
-        else:
-            opcion = "Personal"
+        opcion = tamanos.get(opcion)
         print("Tamaño seleccionado: ", opcion)
         return opcion
 
+## FUNCION PARA SELECCIONAR EL COMBO A COMPRAR
+## PARAMETROS: NUMERO DE PIZZAS YA ORDENADAS (n), TOTAL DE LA COMPRA (total)
+## RETURN: RESPUESTA SI DESEA SEGUIR ORDENANDO (respuesta), TOTAL DE LA COMPRA (total)
+def menu_combos(n, total):
+    print("\nCombos disponibles")
+    combo_value = combos.values()
+    combo_key = combos.keys()
+
+    for i in zip(combo_key, combo_value):
+        print(format(i[1], '15s'), end=' ')
+        print('('.format(i[0]) + i[0] + ')')
+    
+    opcion = input("Indique el combo: ")
+    
+    if opcion not in combo_key:
+        print("=>Debe seleccionar un combo!!") 
+        menu_combos(n, total)
+
+    print("****************************")
+    respuesta = input("¿Desea continuar [s/n]?: ")
+    print("****************************")
+
+    precio_combo = combos_precios.get(opcion)
+    total += precio_combo
+
+    while True:
+        if respuesta == 's':
+            print("Subtotal por el combo: ", precio_combo)
+            print("Subtotal de toda su orden ({} pizzas): {}" .format(n_pizzas + 1, total)  )
+            print("****************************\n")
+            return respuesta, total
+        elif respuesta == 'n':
+            print("El pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
+            print("\n\nGracias por su compra, regrese pronto")
+            return respuesta, total
 
 ## FUNCION PARA DAR RESULTADOS DE LAS PIZZAS
 ## PARAMETROS: TAMANO DE LA PIZZA, INGREDIENTES, PRECIO DE LA PIZZA, NUMERO DE PIZZA Y MONTO TOTAL
@@ -114,24 +153,29 @@ def main():
     n_pizzas = 0
     precio_total = 0
     respuesta = ''
+    opcion_combo = ''
     while respuesta != 'n':
         precio_ingrediente = 0
         n_pizzas += 1
         print("Pizza número {} \n".format(n_pizzas))
 
-        opcion_tamano = tamanos("a")
-        precio_tamano = getPrecioTamano(opcion_tamano)
+        print("a) Combos ( c ) b) Personalizada ( p )")
+        opcion_combo = input("Opcion: ")
 
-        opcion_ingrediente = llenarPizza()
-        for i in opcion_ingrediente:
-            precio_ingrediente += float(getPrecio(i))
-
-        precio_pizza = precio_tamano + precio_ingrediente
-
-        precio_total += precio_pizza
-
-        respuesta = pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n_pizzas, precio_total)
-
+        if opcion_combo == 'c':
+            respuesta, precio_total = menu_combos(n_pizzas, precio_total)
+        elif opcion_combo == 'p':
+            opcion_tamano = elegir_tamano("a")
+            precio_tamano = getPrecioTamano(opcion_tamano)
+            opcion_ingrediente = llenarPizza()
+            for i in opcion_ingrediente:
+                precio_ingrediente += float(getPrecio(i))
+            precio_pizza = precio_tamano + precio_ingrediente
+            precio_total += precio_pizza
+            respuesta = pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n_pizzas, precio_total)
+        else:
+            print("Opción inexistente")
+            n_pizzas -=1
 
 if __name__ == "__main__":
     main()
