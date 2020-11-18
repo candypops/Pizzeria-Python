@@ -37,4 +37,13 @@ Existen 3 códigos posibles:
 2. HALFFREE -- Descuento del 50% del total
 3. PREMIUMFRIEND -- Descuento del 80%
 
-* Opción de delivery:
+* Opción de delivery: El usuario podra optar por pedir el envio de las pizzas indicando la direccion y numero telefonico.
+```
+Desea delivery? (Costo de 3) [s/n]: s
+
+Introduzca la direccion de envio: Municipio Libertador, Parroquia San bernardino, AV Jose Felix Ribas, Conjunto residencial terepaima
+Introduzca su numero telefonico: 04241037898
+
+El pedido tiene un total de 1 pizza(s) por un monto de 345.5.
+El envio se realizara a la direccion Municipio Libertador, Parroquia San bernardino, AV Jose Felix Ribas, Conjunto residencial terepaima, asociado al numero telefonico 04241037898.
+```
