@@ -1,4 +1,4 @@
-## DICCIONARIOS DE DATOS GLOBALES CON TAMAÑOS DE PIZZAS, COMBOS Y PRECIOS, LOS PRECIOS Y NOMBRES DE LOS INGREDIENTES
+## DICCIONARIOS DE DATOS GLOBALES CON TAMAÑOS DE PIZZAS, COMBOS Y PRECIOS, LOS PRECIOS Y NOMBRES DE LOS INGREDIENTES, DESCUENTOS
 ingredientes = {'ja': 40, 'ch': 35, 'pi': 30, 'dq': 40, 'ac': 57.5, 'pp': 38.5, 'sa': 62.5}
 ingNombre = {'ja': 'Jamón', 'ch': 'Champiñones', 'pi': 'Pimentón', 'dq': 'Doble Queso', 'ac': 'Aceitunas',
              'pp': 'Pepperoni', 'sa': 'Salchichón'}
@@ -12,11 +12,33 @@ combos = {'c1': 'Pizza Margarita Grande + 2 Refrescos de 2lts + Dulce         ',
           'c5': 'Pizza Pepperoni Personal + 1 Refreco de 1.5lts + Dulce       ', 
           'c6': 'Pizza Vegetariana Mediana + Dulce                            ',
           'c7': 'Pizza Caprese Grande + 1 Refreco de 1.5lts + Dulce           '}
+codigos = {'DELIFREE': 3, 'HALFFREE': 0.50, 'PREMIUMFRIEND': 0.80}
 
 ## VARIABLES GOBLALES
 precio_total = 0
 n_pizzas = 0
 
+## FUNCION PARA APLICAR CODIGO DE DESCUENTOS
+## PARAMETROS: TOTAL
+## RETURN: PRECIO CON DESCUENTO
+def setDescuento(total: float):
+    descuento = input('Ingrese el codigo de descuento en mayúsculas: ')
+    tot = 0
+    if descuento in codigos:
+        per = float(codigos.get(descuento))
+        if descuento == 'DELIFREE':
+            total -= per
+            print('¡Felicitaciones! su código es correcto, descuento de: ', str(per))
+        else:
+            total -= total * per
+            print('¡Felicitaciones! su código es correcto, descuento de: %s %%' % (str(per*100)))
+        return total
+    else:
+        r = input('Código erroneo, desea intentar nuevamente [s/n]: ')
+        if r == 's':
+            setDescuento(total)
+        else:
+            return tot
 
 ## FUNCION QUE DEVUELVE EL PRECIO DE UN INGREDIENTE
 ## PARAMETROS: INGREDIENTE ABREVIADO
@@ -121,8 +143,17 @@ def menu_combos(n, total):
             return respuesta, total
         elif respuesta == 'n':
             print("El pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
-            print("\n\nGracias por su compra, regrese pronto")
-            return respuesta, total
+            print('\n')
+            res = input('¿Desea usar un código de promoción[s/n]?')
+            if res == 's':
+                descuento = setDescuento(total)
+                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento), end='.')
+                print("\n\nGracias por su compra, regrese pronto")
+                return respuesta, total
+            elif res == 'n':
+                print("\n\nGracias por su compra, regrese pronto")
+                return respuesta, total
+
 
 ## FUNCION PARA DAR RESULTADOS DE LAS PIZZAS
 ## PARAMETROS: TAMANO DE LA PIZZA, INGREDIENTES, PRECIO DE LA PIZZA, NUMERO DE PIZZA Y MONTO TOTAL
@@ -144,8 +175,16 @@ def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
             return respuesta
         elif respuesta == 'n':
             print("El pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
-            print("\n\nGracias por su compra, regrese pronto")
-            return respuesta
+            print('\n')
+            res = input('¿Desea usar un código de promoción[s/n]?')
+            if res == 's':
+                descuento = setDescuento(total)
+                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento), end='.')
+                print("\n\nGracias por su compra, regrese pronto")
+                return respuesta
+            elif res == 'n':
+                print("\n\nGracias por su compra, regrese pronto")
+                return respuesta
 
 
 def main():
