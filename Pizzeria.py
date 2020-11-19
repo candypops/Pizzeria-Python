@@ -168,7 +168,10 @@ def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
     for i in opcion_ingrediente:
         string_opcion_ingrediente += " %s," % (getNombre(i))
     strip_opcion_ingrediente = string_opcion_ingrediente.rstrip(',')
-    print("Usted selecciono una pizza %s con%s" % (opcion_tamano, strip_opcion_ingrediente), end='.')
+    if strip_opcion_ingrediente == '':
+        print("Usted eligio una pizza %s Margarita" % opcion_tamano)
+    else:
+        print("Usted selecciono una pizza %s con%s" % (opcion_tamano, strip_opcion_ingrediente), end='.')
     print('\n')
     print("Subtotal a pagar por una pizza %s: %s" % (opcion_tamano, precio_pizza))
     print("****************************")
