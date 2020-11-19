@@ -4,12 +4,12 @@ ingNombre = {'ja': 'Jamón', 'ch': 'Champiñones', 'pi': 'Pimentón', 'dq': 'Dob
              'pp': 'Pepperoni', 'sa': 'Salchichón'}
 tamano_precio = {'Grande': 580, 'Mediana': 430, 'Personal': 280}
 tamanos = {'g': 'Grande', 'm': 'Mediana', 'p': 'Personal'}
-combos_precios = {'c1': 685, 'c2': 650, 'c3': 539, 'c4': 988, 'c5': 305, 'c6': 469,'c7': 610}
-combos = {'c1': 'Pizza Margarita Grande + 2 Refrescos de 2lts + Dulce         ', 
-          'c2': 'Pizza Cuatro Quesos Grande + 1 Refreco de 2lts               ', 
-          'c3': 'Pizza Cuatro Estaciones Medina + 1 Refreco de 1.5lts + Dulce ', 
-          'c4': 'Pizza Primavera Grande + Extra de Queso + 2 Refrescos de 2lts', 
-          'c5': 'Pizza Pepperoni Personal + 1 Refreco de 1.5lts + Dulce       ', 
+combos_precios = {'c1': 685, 'c2': 650, 'c3': 539, 'c4': 988, 'c5': 305, 'c6': 469, 'c7': 610}
+combos = {'c1': 'Pizza Margarita Grande + 2 Refrescos de 2lts + Dulce         ',
+          'c2': 'Pizza Cuatro Quesos Grande + 1 Refreco de 2lts               ',
+          'c3': 'Pizza Cuatro Estaciones Medina + 1 Refreco de 1.5lts + Dulce ',
+          'c4': 'Pizza Primavera Grande + Extra de Queso + 2 Refrescos de 2lts',
+          'c5': 'Pizza Pepperoni Personal + 1 Refreco de 1.5lts + Dulce       ',
           'c6': 'Pizza Vegetariana Mediana + Dulce                            ',
           'c7': 'Pizza Caprese Grande + 1 Refreco de 1.5lts + Dulce           '}
 codigos = {'DELIFREE': 3, 'HALFFREE': 0.50, 'PREMIUMFRIEND': 0.80}
@@ -17,6 +17,7 @@ codigos = {'DELIFREE': 3, 'HALFFREE': 0.50, 'PREMIUMFRIEND': 0.80}
 ## VARIABLES GOBLALES
 precio_total = 0
 n_pizzas = 0
+
 
 ## FUNCION PARA APLICAR CODIGO DE DESCUENTOS
 ## PARAMETROS: TOTAL
@@ -31,7 +32,7 @@ def setDescuento(total: float):
             print('¡Felicitaciones! su código es correcto, descuento de: ', str(per))
         else:
             total -= total * per
-            print('¡Felicitaciones! su código es correcto, descuento de: %s %%' % (str(per*100)))
+            print('¡Felicitaciones! su código es correcto, descuento de: %s %%' % (str(per * 100)))
         return total
     else:
         r = input('Código erroneo, desea intentar nuevamente [s/n]: ')
@@ -39,6 +40,7 @@ def setDescuento(total: float):
             setDescuento(total)
         else:
             return tot
+
 
 ## FUNCION QUE DEVUELVE EL PRECIO DE UN INGREDIENTE
 ## PARAMETROS: INGREDIENTE ABREVIADO
@@ -110,6 +112,7 @@ def elegir_tamano(opcion):
         print("Tamaño seleccionado: ", opcion)
         return opcion
 
+
 ## FUNCION PARA SELECCIONAR EL COMBO A COMPRAR
 ## PARAMETROS: NUMERO DE PIZZAS YA ORDENADAS (n), TOTAL DE LA COMPRA (total)
 ## RETURN: RESPUESTA SI DESEA SEGUIR ORDENANDO (respuesta), TOTAL DE LA COMPRA (total)
@@ -121,11 +124,11 @@ def menu_combos(n, total):
     for i in zip(combo_key, combo_value):
         print(format(i[1], '15s'), end=' ')
         print('('.format(i[0]) + i[0] + ')')
-    
+
     opcion = input("Indique el combo: ")
-    
+
     if opcion not in combo_key:
-        print("=>Debe seleccionar un combo!!") 
+        print("=>Debe seleccionar un combo!!")
         menu_combos(n, total)
 
     print("****************************")
@@ -138,7 +141,7 @@ def menu_combos(n, total):
     while True:
         if respuesta == 's':
             print("Subtotal por el combo: ", precio_combo)
-            print("Subtotal de toda su orden ({} pizzas): {}" .format(n_pizzas + 1, total)  )
+            print("Subtotal de toda su orden ({} pizzas): {}".format(n_pizzas + 1, total))
             print("****************************\n")
             return respuesta, total
         elif respuesta == 'n':
@@ -147,7 +150,8 @@ def menu_combos(n, total):
             res = input('¿Desea usar un código de promoción[s/n]?')
             if res == 's':
                 descuento = setDescuento(total)
-                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento), end='.')
+                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento),
+                      end='.')
                 print("\n\nGracias por su compra, regrese pronto")
                 return respuesta, total
             elif res == 'n':
@@ -163,7 +167,10 @@ def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
     for i in opcion_ingrediente:
         string_opcion_ingrediente += " %s," % (getNombre(i))
     strip_opcion_ingrediente = string_opcion_ingrediente.rstrip(',')
-    print("Usted selecciono una pizza %s con%s" % (opcion_tamano, strip_opcion_ingrediente), end='.')
+    if strip_opcion_ingrediente == '':
+        print("Usted eligio una pizza %s Margarita" % opcion_tamano)
+    else:
+        print("Usted selecciono una pizza %s con%s" % (opcion_tamano, strip_opcion_ingrediente), end='.')
     print('\n')
     print("Subtotal a pagar por una pizza %s: %s" % (opcion_tamano, precio_pizza))
     print("****************************")
@@ -179,7 +186,8 @@ def pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n, total):
             res = input('¿Desea usar un código de promoción[s/n]?')
             if res == 's':
                 descuento = setDescuento(total)
-                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento), end='.')
+                print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento),
+                      end='.')
                 print("\n\nGracias por su compra, regrese pronto")
                 return respuesta
             elif res == 'n':
@@ -214,7 +222,8 @@ def main():
             respuesta = pedido(opcion_tamano, opcion_ingrediente, precio_pizza, n_pizzas, precio_total)
         else:
             print("Opción inexistente")
-            n_pizzas -=1
+            n_pizzas -= 1
+
 
 if __name__ == "__main__":
     main()
