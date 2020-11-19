@@ -145,9 +145,16 @@ def menu_combos(n, total):
             print("****************************\n")
             return respuesta, total
         elif respuesta == 'n':
-            print("El pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
-            print('\n')
-            res = input('¿Desea usar un código de promoción[s/n]?')
+            respuesta_delivery = input("\nDesea delivery? (Costo de 3) [s/n]: ")
+            if respuesta_delivery == 's':
+                total += 3
+                direccion = input("Introduzca la direccion de envio: ")
+                telefono = input("Introduzca su numero telefonico: ")
+            print("\nEl pedido tiene un total de %s pizza(s) por un monto de %s" % (n, total), end='.')
+            if direccion != "":
+                print("\nEl envio se realizara a la direccion %s, asociado al numero telefonico %s.\n" % (
+                direccion, telefono))
+            res = input('¿Desea usar un código de promoción[s/n]?: ')
             if res == 's':
                 descuento = setDescuento(total)
                 print("El pedido con descuento tiene un total de %s pizza(s) por un monto de %s" % (n, descuento),
